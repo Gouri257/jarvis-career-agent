@@ -1,0 +1,7 @@
+# Never upload these
+*.pyc
+__pycache__/
+.env
+config.py
+*.pdf
+.DS_Store
