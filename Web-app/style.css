@@ -1,0 +1,688 @@
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #222;
+  min-height: 100vh;
+}
+
+/* =====================
+   HEADER
+   ===================== */
+.header {
+  background-color: #111;
+  color: white;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The pulsing green dot in the header */
+.logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22cc77;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+.header h1 {
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* Status pill top right */
+#statusPill {
+  background: #333;
+  color: #aaa;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: background 0.3s, color 0.3s;
+}
+
+#statusPill.active {
+  background: #1a5;
+  color: white;
+}
+
+/* =====================
+   TWO COLUMN LAYOUT
+   ===================== */
+.main-layout {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.left-panel {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.right-panel {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  min-height: 500px;
+}
+
+/* =====================
+   LABELS AND HINTS
+   ===================== */
+.label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* =====================
+   PDF UPLOAD BOX
+   ===================== */
+.upload-box {
+  border: 2px dashed #ddd;
+  border-radius: 10px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  color: #999;
+  transition: all 0.2s;
+}
+
+.upload-box:hover {
+  background-color: #f9f9f9;
+  border-color: #bbb;
+}
+
+.upload-box.has-file {
+  border-color: #22cc77;
+  border-style: solid;
+  background: #f0fff6;
+}
+
+.upload-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.upload-box p {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.upload-hint {
+  font-size: 11px;
+  color: #bbb;
+}
+
+#fileName {
+  font-size: 12px;
+  color: #22aa66;
+  margin-top: 6px;
+  padding: 4px 0;
+}
+
+/* =====================
+   TEXT AREAS
+   ===================== */
+textarea {
+  width: 100%;
+  height: 120px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background: #fafafa;
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #999;
+  background: white;
+}
+
+textarea::placeholder {
+  color: #bbb;
+  line-height: 1.6;
+}
+
+/* =====================
+   BUTTONS
+   ===================== */
+.action-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+button {
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  border-radius: 7px;
+  font-size: 13px;
+  padding: 10px 18px;
+  border: 1px solid #ddd;
+  transition: all 0.15s;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: white;
+  color: #666;
+}
+
+.btn-secondary:hover {
+  background: #f5f5f5;
+}
+
+.btn-primary {
+  background: #111;
+  color: white;
+  border-color: #111;
+  margin-left: auto;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+  background: #333;
+}
+
+.btn-primary:disabled {
+  background: #999;
+  border-color: #999;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =====================
+   JARVIS VOICE ASSISTANT PANEL
+   ===================== */
+.jarvis-voice-panel {
+  background: #0a0a0a;
+  border-radius: 12px;
+  padding: 20px 16px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.jarvis-orb-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.jarvis-orb {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid rgba(50, 180, 255, 0.3);
+}
+
+.ring1 {
+  width: 64px;
+  height: 64px;
+  animation: rotateRing 3s linear infinite;
+  border-top-color: rgba(50, 180, 255, 0.8);
+}
+
+.ring2 {
+  width: 48px;
+  height: 48px;
+  animation: rotateRing 2s linear infinite reverse;
+  border-top-color: rgba(100, 220, 200, 0.6);
+}
+
+@keyframes rotateRing {
+  to { transform: rotate(360deg); }
+}
+
+.orb-core {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1188cc;
+  transition: transform 0.3s;
+}
+
+.jarvis-orb.speaking .orb-core {
+  animation: orbPulse 0.6s ease-in-out infinite;
+}
+
+.jarvis-orb.speaking .ring1 {
+  animation-duration: 0.8s;
+  border-top-color: rgba(50, 255, 150, 0.9);
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.4); }
+}
+
+.jarvis-orb.listening .orb-core {
+  background: #cc2211;
+  animation: orbPulse 0.4s ease-in-out infinite;
+}
+
+.jarvis-orb.listening .ring1,
+.jarvis-orb.listening .ring2 {
+  border-top-color: rgba(255, 80, 60, 0.8);
+}
+
+.jarvis-state {
+  font-size: 11px;
+  color: #556;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
+.jarvis-speech-bubble {
+  background: #161616;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.jarvis-speech-bubble p {
+  font-size: 12px;
+  color: #88aacc;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.jarvis-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.jarvis-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #ccc;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.jarvis-btn:hover {
+  background: #222;
+  border-color: #555;
+  color: white;
+}
+
+.jarvis-btn.active {
+  background: #1a0505;
+  border-color: #cc3322;
+  color: #ff6655;
+  animation: recordPulse 1s infinite;
+}
+
+.mute-btn { padding: 9px 12px; }
+.mute-btn.muted { color: #555; border-color: #222; }
+
+@keyframes recordPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+.voice-transcript {
+  font-size: 12px;
+  color: #667;
+  font-style: italic;
+  min-height: 18px;
+  margin-bottom: 10px;
+}
+
+.voice-hints {
+  text-align: left;
+  border-top: 1px solid #1a1a1a;
+  padding-top: 10px;
+}
+
+.hints-label {
+  font-size: 10px;
+  color: #444;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hints-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.hint-chip {
+  font-size: 10px;
+  background: #141414;
+  border: 1px solid #222;
+  color: #556;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-family: monospace;
+}
+
+.panel-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin-bottom: 14px;
+}
+
+/* =====================
+   RESULT ACTION BUTTONS (Copy + Download PDF)
+   ===================== */
+.result-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.btn-icon {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 7px 14px;
+  font-size: 12px;
+  border-radius: 7px;
+  color: #555;
+}
+
+.btn-icon:hover {
+  background: #f5f5f5;
+}
+
+.btn-icon.copied {
+  background: #f0fff6;
+  border-color: #22cc77;
+  color: #22aa66;
+}
+
+/* =====================
+   LOADING SPINNER
+   ===================== */
+#loadingSpinner {
+  padding: 40px 0;
+}
+
+.spinner-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* The spinning circle */
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #f0f0f0;
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner-text {
+  font-size: 13px;
+  color: #999;
+  letter-spacing: 0.5px;
+}
+
+/* =====================
+   IDLE MESSAGE
+   ===================== */
+.idle-message {
+  padding: 60px 20px;
+  text-align: center;
+  color: #bbb;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* =====================
+   RESULTS CONTENT
+   ===================== */
+h2 {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #999;
+  text-transform: uppercase;
+  margin: 20px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+h2:first-child {
+  margin-top: 0;
+}
+
+/* Skill gap cards — orange tinted */
+.gap-card {
+  background: #fff8f5;
+  border: 1px solid #ffd0bb;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.gap-card strong {
+  display: block;
+  color: #cc4400;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.gap-card p {
+  font-size: 12px;
+  color: #884400;
+  line-height: 1.6;
+}
+
+/* Project cards */
+.project-card {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+/* Clickable header of each project card */
+.project-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  background: #fafafa;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  user-select: none;
+}
+
+.project-header:hover {
+  background: #f5f5f5;
+}
+
+.project-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+}
+
+.project-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* NEW / UPGRADE badge */
+.badge {
+  font-size: 10px;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-new     { background: #e6f0ff; color: #1155cc; }
+.badge-upgrade { background: #fff3e0; color: #cc6600; }
+
+/* Arrow that rotates when card opens */
+.arrow {
+  font-size: 11px;
+  color: #bbb;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Body of each project card — hidden by default */
+.project-body {
+  padding: 12px 14px;
+  display: none;
+}
+
+.project-body.open {
+  display: block;
+}
+
+.project-why {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* Tech stack tags */
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.tech-tags span {
+  font-size: 11px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 3px 9px;
+  color: #666;
+  background: #fafafa;
+}
+
+/* Numbered steps list */
+.project-body ol {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.project-body ol li {
+  font-size: 12px;
+  color: #444;
+  padding: 5px 0;
+  line-height: 1.6;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.project-body ol li:last-child {
+  border-bottom: none;
+}
+
+/* =====================
+   MOBILE RESPONSIVE
+   When screen is narrow, stack the two panels on top of each other
+   ===================== */
+@media (max-width: 680px) {
+  .main-layout {
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .left-panel, .right-panel {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .header h1 {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .action-row {
+    flex-direction: column;
+  }
+
+  .btn-primary {
+    margin-left: 0;
+  }
+}
