@@ -4,7 +4,7 @@
 // Local dev:  http://localhost:8000
 // Production: https://your-app.railway.app
 // ============================================================
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'https://jarvis-career-agent-production.up.railway.app';
 
 
 // ============================================================
