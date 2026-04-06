@@ -1,163 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JARVIS Career Agent</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- API Key setup bar -->
-<div id="keySetup" style="background:#111;padding:14px;text-align:center;border-bottom:1px solid #222">
-  <span style="color:#888;font-size:12px;margin-right:10px">Enter your free Groq API key to use JARVIS:</span>
-  <input
-    type="password"
-    id="apiKeyInput"
-    placeholder="Paste Groq key here — get one free at console.groq.com"
-    style="width:340px;padding:7px 12px;border-radius:6px;border:1px solid #333;
-           background:#1a1a1a;color:white;font-size:12px"
-  >
-  <button
-    onclick="saveKey()"
-    style="margin-left:8px;padding:7px 16px;background:#185FA5;color:white;
-           border:none;border-radius:6px;cursor:pointer;font-size:12px"
-  >
-    Save
-  </button>
-  <p style="color:#445;font-size:10px;margin-top:5px">
-    Your key is saved only in your browser. We never see it or store it anywhere.
-  </p>
-</div>
-  
-  <!-- TOP HEADER BAR -->
-  <div class="header">
-    <div class="header-left">
-      <div class="logo-dot"></div>
-      <h1>JARVIS — Career Agent</h1>
-    </div>
-    <span id="statusPill">standby</span>
-  </div>
+  <!-- ═══════════════════════════════════════════════
+       AUTH SCREEN — shown when not logged in
+  ═══════════════════════════════════════════════ -->
+  <div id="authScreen">
 
-  <!-- TWO COLUMN LAYOUT -->
-  <div class="main-layout">
+    <div class="auth-card">
+      <div class="auth-logo">⬡</div>
+      <h1 class="auth-title">JARVIS</h1>
+      <p class="auth-subtitle">Career Agent</p>
 
-    <!-- LEFT SIDE: All Inputs -->
-    <div class="left-panel">
-
-      <!-- PDF Upload -->
-      <p class="label">Step 1 — Upload Resume (PDF) — optional</p>
-      <div class="upload-box" id="uploadBox" onclick="document.getElementById('pdfInput').click()">
-        <div class="upload-icon">📄</div>
-        <p>Click to upload your PDF resume</p>
-        <span class="upload-hint">PDF only · max 10MB</span>
-      </div>
-      <input type="file" id="pdfInput" accept=".pdf" style="display:none">
-      <p id="fileName" style="display:none"></p>
-
-      <!-- NEW: Resume Text Box -->
-      <p class="label" style="margin-top: 16px;">Step 2 — Paste Your Resume Text (recommended)</p>
-      <textarea
-        id="resumeText"
-        placeholder="Copy and paste your entire resume here — skills, projects, experience, education. The more detail you give, the more accurate the gap analysis will be."
-        style="height: 160px;"
-      ></textarea>
-      <p class="field-hint">This gives much better results than PDF upload since the AI can actually read your resume.</p>
-
-      <!-- Job Description -->
-      <p class="label" style="margin-top: 16px;">Step 3 — Paste the Job Description</p>
-      <textarea id="jdInput" placeholder="Paste the full job description or internship posting here — role, responsibilities, required skills, tech stack..."></textarea>
-
-      <!-- Action Buttons -->
-      <div class="action-row">
-        <button class="btn-secondary" onclick="clearAll()">Clear</button>
-        <button class="btn-primary" id="analyzeBtn" onclick="runAnalysis()">Analyze My Resume →</button>
+      <!-- Tab switcher -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" id="registerTab" onclick="switchTab('register')">Register</button>
       </div>
 
-    </div>
-
-    <!-- RIGHT SIDE: Results -->
-    <div class="right-panel">
-
-      <!-- JARVIS VOICE ASSISTANT PANEL -->
-      <div class="jarvis-voice-panel">
-
-        <!-- Animated orb that pulses when JARVIS is speaking -->
-        <div class="jarvis-orb-wrap">
-          <div class="jarvis-orb" id="jarvisOrb">
-            <div class="orb-ring ring1"></div>
-            <div class="orb-ring ring2"></div>
-            <div class="orb-core"></div>
-          </div>
-          <p class="jarvis-state" id="jarvisState">JARVIS ready</p>
-        </div>
-
-        <!-- What JARVIS just said — shown as text too -->
-        <div class="jarvis-speech-bubble" id="jarvisBubble" style="display:none">
-          <p id="jarvisSpeechText"></p>
-        </div>
-
-        <!-- Voice control buttons -->
-        <div class="jarvis-controls">
-          <button class="jarvis-btn" id="micBtn" onclick="toggleVoice()">
-            🎙 Hold to Speak
-          </button>
-          <button class="jarvis-btn mute-btn" id="muteBtn" onclick="toggleMute()" title="Mute JARVIS voice">
-            🔊
-          </button>
-        </div>
-
-        <!-- What the user said — live transcript -->
-        <p class="voice-transcript" id="voiceTranscript"></p>
-
-        <!-- Voice command hints -->
-        <div class="voice-hints">
-          <p class="hints-label">Try saying:</p>
-          <div class="hints-list">
-            <span class="hint-chip">"Analyze my resume"</span>
-            <span class="hint-chip">"What are my skill gaps"</span>
-            <span class="hint-chip">"Read me the first project"</span>
-            <span class="hint-chip">"Clear everything"</span>
-            <span class="hint-chip">"Download my report"</span>
-          </div>
-        </div>
-
+      <!-- Login form -->
+      <div id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email address" class="auth-input">
+        <input type="password" id="loginPassword" placeholder="Password" class="auth-input">
+        <button class="auth-btn" onclick="handleLogin()">Login to JARVIS</button>
+        <p class="auth-error" id="loginError"></p>
       </div>
 
-      <!-- Divider -->
-      <div class="panel-divider"></div>
-
-      <!-- Result action buttons — hidden until results appear -->
-      <div class="result-actions" id="resultActions" style="display:none">
-        <button class="btn-icon" onclick="copyResults()" id="copyBtn">📋 Copy Results</button>
-        <button class="btn-icon" onclick="downloadPDF()" id="pdfBtn">⬇ Download PDF</button>
-      </div>
-
-      <!-- Loading Spinner — hidden by default -->
-      <div id="loadingSpinner" style="display:none">
-        <div class="spinner-wrap">
-          <div class="spinner"></div>
-          <p class="spinner-text" id="spinnerText">Analyzing your resume...</p>
-        </div>
-      </div>
-
-      <!-- Results area -->
-      <div id="resultsArea">
-        <div class="idle-message">
-          <p>Upload your resume and paste a job description,<br>then click <strong>Analyze My Resume</strong><br>or use your voice.</p>
-        </div>
+      <!-- Register form -->
+      <div id="registerForm" style="display:none">
+        <input type="text" id="regName" placeholder="Your full name" class="auth-input">
+        <input type="email" id="regEmail" placeholder="Email address" class="auth-input">
+        <input type="password" id="regPassword" placeholder="Password (min 6 chars)" class="auth-input">
+        <button class="auth-btn" onclick="handleRegister()">Create Account</button>
+        <p class="auth-error" id="registerError"></p>
       </div>
 
     </div>
   </div>
 
-  <!-- Load jsPDF from CDN for PDF download feature -->
+  <!-- ═══════════════════════════════════════════════
+       MAIN APP — shown after login
+  ═══════════════════════════════════════════════ -->
+  <div id="mainApp" style="display:none">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="logo-dot"></div>
+        <h1>JARVIS — Career Agent</h1>
+      </div>
+      <div class="header-right">
+        <span id="userNameLabel" class="user-label"></span>
+        <button class="nav-btn" id="historyNavBtn" onclick="toggleHistory()">📋 History</button>
+        <button class="nav-btn logout-btn" onclick="handleLogout()">Logout</button>
+        <span id="statusPill">standby</span>
+      </div>
+    </div>
+
+    <!-- ── HISTORY PANEL (slides in from right) ── -->
+    <div id="historyPanel" class="history-panel" style="display:none">
+      <div class="history-header">
+        <h2>Your Analysis History</h2>
+        <button onclick="toggleHistory()" class="close-btn">✕</button>
+      </div>
+      <div id="historyList">
+        <p style="color:#888;font-size:13px">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="main-layout">
+
+      <!-- LEFT: Inputs -->
+      <div class="left-panel">
+
+        <p class="label">Step 1 — Groq API Key</p>
+        <input type="password" id="apiKeyInput"
+          placeholder="Paste your free Groq API key from console.groq.com"
+          class="api-key-input">
+        <p class="field-hint">Get a free key at console.groq.com — stored only in your browser</p>
+
+        <p class="label" style="margin-top:14px">Step 2 — Upload Resume PDF (optional)</p>
+        <div class="upload-box" id="uploadBox" onclick="document.getElementById('pdfInput').click()">
+          <div class="upload-icon">📄</div>
+          <p>Click to upload your PDF resume</p>
+          <span class="upload-hint">PDF only · max 10MB</span>
+        </div>
+        <input type="file" id="pdfInput" accept=".pdf" style="display:none">
+        <p id="fileName" style="display:none"></p>
+
+        <p class="label" style="margin-top:14px">Step 3 — Paste Your Resume Text (recommended)</p>
+        <textarea id="resumeText" style="height:150px"
+          placeholder="Paste your full resume here — skills, projects, experience, education..."></textarea>
+        <p class="field-hint">Gives much more accurate results than PDF upload.</p>
+
+        <p class="label" style="margin-top:14px">Step 4 — Paste the Job Description</p>
+        <textarea id="jdInput"
+          placeholder="Paste the full job description or internship posting here..."></textarea>
+
+        <div class="action-row">
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+          <button class="btn-primary" id="analyzeBtn" onclick="runAnalysis()">Analyze My Resume →</button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Voice + Results -->
+      <div class="right-panel">
+
+        <!-- JARVIS voice panel -->
+        <div class="jarvis-voice-panel">
+          <div class="jarvis-orb-wrap">
+            <div class="jarvis-orb" id="jarvisOrb">
+              <div class="orb-ring ring1"></div>
+              <div class="orb-ring ring2"></div>
+              <div class="orb-core"></div>
+            </div>
+            <p class="jarvis-state" id="jarvisState">JARVIS ready</p>
+          </div>
+
+          <div class="jarvis-speech-bubble" id="jarvisBubble" style="display:none">
+            <p id="jarvisSpeechText"></p>
+          </div>
+
+          <div class="jarvis-controls">
+            <button class="jarvis-btn" id="micBtn" onclick="toggleVoice()">🎙 Hold to Speak</button>
+            <button class="jarvis-btn mute-btn" id="muteBtn" onclick="toggleMute()">🔊</button>
+          </div>
+
+          <p class="voice-transcript" id="voiceTranscript"></p>
+
+          <div class="voice-hints">
+            <p class="hints-label">Try saying:</p>
+            <div class="hints-list">
+              <span class="hint-chip">"Analyze"</span>
+              <span class="hint-chip">"My ATS score"</span>
+              <span class="hint-chip">"Read first project"</span>
+              <span class="hint-chip">"Download report"</span>
+              <span class="hint-chip">"Show history"</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- ATS Score card — hidden until results arrive -->
+        <div id="atsCard" style="display:none" class="ats-card">
+          <div class="ats-left">
+            <p class="ats-label">ATS Score</p>
+            <div class="ats-score-wrap">
+              <span class="ats-score" id="atsScore">0</span>
+              <span class="ats-max">/100</span>
+            </div>
+            <span class="ats-grade" id="atsGrade">F</span>
+          </div>
+          <div class="ats-right">
+            <div class="ats-keywords">
+              <p class="kw-label">✅ Matched Keywords</p>
+              <div id="matchedKeywords" class="kw-tags"></div>
+            </div>
+            <div class="ats-keywords" style="margin-top:8px">
+              <p class="kw-label">❌ Missing Keywords</p>
+              <div id="missingKeywords" class="kw-tags"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result action buttons -->
+        <div class="result-actions" id="resultActions" style="display:none">
+          <button class="btn-icon" onclick="copyResults()" id="copyBtn">📋 Copy</button>
+          <button class="btn-icon" onclick="downloadPDF()" id="pdfBtn">⬇ PDF</button>
+        </div>
+
+        <!-- Loading spinner -->
+        <div id="loadingSpinner" style="display:none">
+          <div class="spinner-wrap">
+            <div class="spinner"></div>
+            <p class="spinner-text" id="spinnerText">Analyzing your resume...</p>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsArea">
+          <div class="idle-message">
+            <p>Login complete. Paste your resume and a job description,<br>then click <strong>Analyze My Resume</strong>.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <!-- Load our app logic -->
   <script src="app.js"></script>
-
 </body>
 </html>
